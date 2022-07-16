@@ -9,7 +9,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import { Button, SvgIcon, Typography, Tooltip, Link } from "@material-ui/core";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import useWeb3Modal from "../utils/useWeb3Modal";
+import useWeb3Connect from "../utils/useWeb3Connect";
 import {
   open3Box,
   logout3Box,
@@ -51,9 +51,9 @@ function LoadDialog(props) {
 
   const [loadType, setLoadType] = React.useState(null);
 
-  const web3Modal = useWeb3Modal();
+  const web3Connect = useWeb3Connect();
 
-  const connected = web3Modal.connected;
+  const connected = web3Connect.connected;
 
   const [threeBoxStatus, setThreeBoxStatus] = React.useState(null);
   const [threeBoxConnectionStep, setThreeBoxConnectionStep] = React.useState(0);
@@ -71,8 +71,8 @@ function LoadDialog(props) {
 
   React.useEffect(() => {
     console.log({
-      isLoggedIn: web3Modal.address
-        ? Box.isLoggedIn(web3Modal.address)
+      isLoggedIn: web3Connect.address
+        ? Box.isLoggedIn(web3Connect.address)
         : "n/a"
     });
 
@@ -81,14 +81,14 @@ function LoadDialog(props) {
     let fetching = isFetching();
 
     if (
-      web3Modal.address &&
-      Box.isLoggedIn(web3Modal.address) &&
+      web3Connect.address &&
+      Box.isLoggedIn(web3Connect.address) &&
       !box &&
       !space &&
       !fetching
     ) {
       console.log("OPENING 3BOX from useEffect");
-      open3Box(web3Modal.address, web3Modal.provider, console.log);
+      open3Box(web3Connect.address, web3Connect.provider, console.log);
     }
   });
 
@@ -117,8 +117,8 @@ function LoadDialog(props) {
   const connectTo3Box = async () => {
     try {
       let { space } = await open3Box(
-        web3Modal.address,
-        web3Modal.provider,
+        web3Connect.address,
+        web3Connect.provider,
         setThreeBoxStatus
       );
       setDocuments(await loadDocuments(space));
@@ -130,7 +130,7 @@ function LoadDialog(props) {
 
   const logout = async () => {
     await logout3Box();
-    await web3Modal.resetApp();
+    await web3Connect.resetApp();
     setThreeBoxStatus(null);
     setThreeBoxConnectionStep(0);
     setLoadType("3BOX_SCREEN");
@@ -189,7 +189,6 @@ function LoadDialog(props) {
             id="loadjsonfile"
             type="file"
             name="file"
-            value=""
             onChange={e => {
               console.log("FILE", e.target.files[0]);
               var reader = new FileReader();
@@ -327,7 +326,7 @@ function LoadDialog(props) {
                   color="primary"
                   onClick={async () => {
                     setOpenLoadDialog(false);
-                    await web3Modal.triggerConnect();
+                    await web3Connect.triggerConnect();
                     setOpenLoadDialog(true);
                     setThreeBoxConnectionStep(1);
                   }}
@@ -338,9 +337,9 @@ function LoadDialog(props) {
               )}
               {threeBoxConnectionStep === 1 && (
                 <div>
-                  {web3Modal.address !== null && (
+                  {web3Connect.address !== null && (
                     <ProfileHover
-                      address={web3Modal.address}
+                      address={web3Connect.address}
                       showName={true}
                       orientation="bottom"
                       displayFull={true}

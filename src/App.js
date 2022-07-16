@@ -24,6 +24,13 @@ import SaveDialog from "./dialogs/SaveDialog";
 import LoadDialog from "./dialogs/LoadDialog";
 import html2canvas from 'html2canvas';
 
+import * as LitJsSdk from 'lit-js-sdk';
+
+// -- init litNodeClient
+global.litNodeClient = new LitJsSdk.LitNodeClient();
+global.litNodeClient.connect();
+global.LitJsSdk = LitJsSdk;
+
 var codec = require('json-url')('lzw');
 var QRCode = require('qrcode.react')
 const axios = require('axios');
@@ -336,7 +343,9 @@ React.useEffect(()=>{
 
               //THIS IS THE DEFAULT FIRST TIME LANDING CASE
 
-      let defaultData = "wofCrGxhc3Rfbm9kZV9pZMONASfEgcSDxIVsaW5rxIvEjQI7wqXEh8SJc8OcABPCisKixIzEjhLCpHR5cGXCrElucHV0L051bWJlcsKjcG9zwpLDjQJ2w4zCqsKkc2l6ZcKSw4zCgjTCpWbEgmdzwoDCpW9yxIlyAMKkbcSIZQDCpsSVxLB0c8KRwoPCpG5hbWXCoMSoxKrFnMKkxJTElsOAwqdvxLHFoMWixaTFpsWoxarEqcSrwqZuxLXEt3LCpcWva8WixL8vwqpwcm_Eq3J0aWVzwoPCq3DEgmNlaG9sxZbCoSPCpcaOdGxlwqbEtMS2xLjCpXZhbHVlwqQxMzM3xKPEpQEUxavEq8KrTWF0aC9SYW5kb23EusS8xL4CbMSOIsWExYbFiMOMw4gexY3Fj8WRxZPFlcS4AcWZxZvFncWfxLHFtsWlxafFqca2ZcO_xa7ElWvFscWzdMW1wpHChMeexajGp8apxqvHocW9xb_GpsaDxoUCMMaCYcS3bMOLQ8Khw5QoG8OIw7NcxojGisaMxo7GkMKDwqlhxLHHgsa6aWPDg8KjbcSVAMiVYXjHvsKrw4FtZ07DiADGssSNARPHocKtxrnGuy9NdWzGjsaUeceExL3DjQN6x47Hi8WHwpJ4PMeRYcWQxZLFlMWWCceYxInHmsSvx5zCksW3x5_CoUHHssW-xqVyx6TElsaGyYvFqMKhQsmPx7TJksaDxL8wxbLFtMecxaPHrWXCoT3JmsmRxoLHpce3MciHxovEuMiKxpHJjcONBTnJmMe-yIDIgsiEXMKiT1DCoSrCicSkyKUWx6HCr0Rpc8aUYXkvQmxvY2vGj8izxL4ETMSOQMi5xYhGyL3Fjsi_x5PJgsS4D8mFxZzFnsmIxaHJo8W4x6DFu8WtyZ0CMsmuyInGj3PChMKrYsqQypLGj1PHjDLGk8aVxpfGmcWWwqDGnmnGoMWpx6_GqmXDmUIweGM4YjgwZmVmNTnLkmE4NmZhNzRkYTnHuzUyxIkyMTHLkDkwOMumMDXGrzNjOTg3YWUxZjTLljRjY2EyNcucNWHIpMSOGMqGQ3LEqnRvL0tleSBQYWnEucS7yLQBw4jEv8O4ypvCgsKhMMOKQ1PCmcKawqExQsi-yYDHlMWWDcqlyYfFtcmKyaTCrVvGiWnGqHRlIGvMk13HssSEcsSVZ8mTa8S_NsmWZcKoZ2VuxLjGusasyq3Ho8aDx6fJocWhwpPNisaTzYPMusy8zL55zYF0zYNuZ8mqxJbHtzjNisaIdcq4yJLMvcyTzaHNo82lx7bDgM2KwqdhZGRyxpBzzbHNhM2mxoTCkcS_OcqyybDKtMKAzIgBFcehwqvMjMyOzJBIxINoypXItcKixI5KypvIu8eQyp_MrcqicgzMscqnx6rNisKlx5t0yKjNgs2ELMmQxoDNhsS_Mcmgx6nJos2KwqRozpLNvs2kzoDItMqwxL86zoXGjc6HzokgyKjKiMqKxILKjVfGumPOk8yaypYkw4zCtM6ZyLUxyp7HksmBx5VyEM6hzqbFosesyqvFusWsxZjKrzrHuse8wqDOsceqz57Hn8-gxKsAzrrDgM-lZWzCoM6_ybHCgcuFy4fCpc-JdM-Lzokhx6HCqsSuxaAvVGV4dM6UAsKUxI7Dgs-SAn8yzKzKoc-YAs-byqjHnc-fx6HPoselzZbOssqpzYrPrMaizqnOuce2zoLEms-1yrTKtsq4ypHKk2XKvMWHyr7Ki8aWxpjGmsS4wq_Njsy7ciDMu9CHIGjEuGXPuMahwqtMZWFybiBNxZRlz6TGqMuKw5lIaHTHqXM6Ly930ZoueceozaxlLmPHgi_Ki3nElMSEP9GndD1QTEp6MUhydUXNj25DWEg3S1c3d0JDRUJuQkxPVsqTcUlpzokez4TKidGlL8-7z4vOlAHDvsS_ds-SA8-U0JLPl8WWEdCWz6nJpNCh0JvJlAI4z7HPs8-oyaLPqsW50JrPr9Kpz7TGicmvz4DGkM-3xp_Goc-6z4poyoLGs8eKyq3Cqs-F0pFRUs6UBcKWxI5Uz5IBwpDEjsKQ0p3MrsS4CtKh0qzSo9Cazq7EmtKp0ZHRk9GV0ZfRmdGb0Z3EsdGf0aHRo9Gl0arRqcqJ0avRrdGv0bHRs9G1zY7RuNG60bzRvtKA0oLShNKG0ohp0opp0KjGkMKCwqZxctCvZcyJyapn0ZPDgsKIyoPEjiPSj8-GyozQhMuGxqHKlUbFitOLw7TPrs6c0JPFlgPMsdO9c8KHwqhmb2501IMsyrfKudCt1IPQscuA0LTLg9GC0YFU1JLRgdGPxqvCqWXGuy5idWnGmsKq1KPUpUbFp9S-ecK8J1LNrGlr0YrUpG8gT82PJywgc8a_cy1zxLhpZsKl0aLKkHLCpyPNudWkZM6JGcyLzI1wzI_IrM2PxZpuyJLKlcOM04gDSMygzKLMpDpmZsypzKvUmtKexLgL05TNmM2qW23VrtSkyJLNgMqtwqbQo82FzZXNtlvElcSJeNaLxazHs8mRzYbNtcmkzYzNjs2QzLvHoc2Ux6XEvzXSq8WhzLTKq82bzLnNkc2vzaDWjNaOzrrQps2J1pzWh2XVr8iSzrjNs8mr0KY31J_Pt9aT0IYA0r3IpR_KhtOCz4cvQc25zbtzc86UAwzItdCVxYXIutOJUNOQzp7Ep8WayYbOos6z05bKrdKlzYcCzoTSs8qzyIvUqdCsyrvKvcq_YdCzy4LEuMuE0rhlwqfXis26zbzOiR3UjtKR0pPPjMeFxI7CpMi1x6zXlMWIyLXDvc-VyqDWgHIO1oPPndefz6HTmDfSsdam2I3Qmdeg0rDEgs-m1r7UsdK6z7xo1IrGsyTXhtKQ14hDx4LFqNSlypUew4zDsNSX1JnPltORcgTUntelzobGkMKE1KLUpNSmx4wS16zXrtC1csKu0Zgg0aJt2KfFoS7ZiNSxwqfYpdmF0LjLicary4zDsMKfwpPCnSBDUkVBVEUgQSBORVcgQlVJTEQ6CmjLhtmDzaJsK2HQu9WP1ZrGoWN0IMapbNC70L_Ridmr2bfEicahzLsg2J_IpSfYotSPyo3ZjNmG2KnEjl7YrdeYz5gF2LPIiNi1yrXYuNSl1IPYvNCyy4HYv9mBL9mD2KbQuHPZiC7ZitqK2Y7UtsuLwoTZksKVwrXZksKPwrvDosKAwo3DosKZwoLDr8K4wo8gU9mZUkNI14lE2ajQvtmsyorXrcy8YtGH2bjHgNC7xawKw6LCncKMIEVYSVTGvUXavFQ624TZt8aQzIHEqwrZqm92xLgg26TbpsyPxplz26fRica7zLzNg9SH255kzY0g1KPQusWazbsgLdu8270-2oTEjibah9KR2qfYqM-NHsSOw7Taj9W_2LAG2pPStMmx2LfVgdi6xYfamtSu16_ZgNmC2YTZhtqj2YnXstmL2qHUpdmPy4te2ZLCp8KQIEzavU7Rik_ZmNucY8SUypLZu9uIb9GUx4LQu3LKjNu2xZQgZXDKicWb26wK2ZLCksK-2rtBVkXcsNyy1YzVltulIMiS1KTdkdGJYty2zI9t3LnKjNyAASXcg9ik3KHQiM-NMsS_bNOLTQTakMWWB9yP16baltyT2pnYvdqcxZbantqg2Y3Updyd2qXcn9yFdNyjw5kg3YXCrNu2ZWVk24nKktucQMiOxITNhM2D1bvLhmggIM6JG8ehxK3KqMqOxLHMj27ajALDms6Zx47QkdSawoHCqdWfxIJw1Zpkw4LYsAjYjMqqz6vWodaa2JPWqN6wzZPWsdak0KDHocKuzqzEuCzdlsaZ0YZuz6_Un8KD3KPCqNyxyJLVjMeu17LCpkLemtSk1Z7Fs9SlEM66wpvTiAIvxKYAxI4TxZ3evHLflzDEjhTfm8imAdaYxoDflzHfnN-lFQDCrdaOzqvJm9-X3aTOit-lFgAA35c1xI4b36UZAsO_35c2xI4Z36UYxZ3Wjt-XN-CghQHEjh3fud-XOMyJ36Ue4KCRzoPMiQLEjh_goJcCOsSO367EjiDgoJ07xI4h36Ui37nCpmfGinXeqMKQwqbRom5maWfCgMKn26VyxYXUpMOLP8OZwpngoYDgoYDCmg"
+      let defaultData = "wofCrGxhc3Rfbm9kZV9pZDXEgcSDxIVsaW5rxItkQ8KlxIfEiXPDnAAbworCosSMBMKkdHlwZcK6TGl0UHJvdG9jb2wvRW5jcsSmdCBTdHLEk2fCo3Bvc8KSw40DIMOMw5LCpHNpemXFhgEARsKlZsSCZ3PCgMKlb3LEiXIIwqRtxIhlAMKmxJNwdXTFhcKDwqRuYW1lwqfFsHNzYWdlxKTEpmXCpsSExL9uZ8KkxJLElAHFrMWuxbDCp2XEt8S5cHTFucSnw7_GgcSTawLCp2_FqcWoxarCksaFxa9lwrsoQmxvYiBPYmplY3QpIMaJxLjEumVkRGF0YcaOxbvGosanxqnCpcaCa3PCkQPGm8Wwwr0oVcSTdDhBcnJheSgzMinGq3N5bcWwxL5pY0tleca2wqVhx4rHjMa7xpLFhQsSwqpwxK7Ep3J0aWXFmcSgxIwJxrbCsFXHrGxzL1RvIMayxrRVUknFgsWExYYETMOMwr7FjMWOZcKCwqEww4zDg8KhMRjFlcWXxZnFm8WdZXIKxaHFo8WlxafFqca-x4FlwqXIn8aNxKXEpwDGkcSUA8aVxpfIoMKRyKLCpsaWdMaYxrbFvMeXxb_HosSUxr4Fx6fHqciZx6zHrsKAx7BkA8a2wqpJbsaYx7lleHTIgsWFw40BwqTDjMKMyInFj8WRSTzIlMW2yJbFnMWeyKnFosSJyJ7JisivyKLCoMa2yKnGvMOAyK3ItMmmxa3GnMmoyKfFu8W9xYDIusa9wpEByL5vx6rJgXPChMKrYsahY2vHrVPIijLCq3DEgmNlaMSzxZ7Cr8aJdMiZIMqUyY4gaMiZyKPHrHRsZcKyTceuxbXFt8qWx7vEtsauxozCpXZhbHVlwrRZT8e_xLxFQ1JFVCBNRVNTQUdFIcmEFca2wq3Gpca5dC_LiMaoyY_Fg8mRASLDjQJiyZfFkMmSw6nJksKKyZzFmMWayZ_ImcmTyaLFpMWmyaXGmcmnyLbGuMuNyKprw4DIosiNxrbCtMm1xb8sbnVtYsiZLMupxqnLq8msyLPGmMWrybDFsMmyxbrIssamy43Jt8a-CcuuMMuozIfLvMmrybvJvcetyb_Cpcqdyp_CuUFjyo3FtCBDb27EvsSzzJ7MoGTEq2nMoHPCpcSyxqFywqcjNWHMscyxwqhmzKB0yofFjxDKq8qtyq_DmgELWwogIHvNg82EICLEssyhx4vGqUFkZHLKoyI6zYkiLM2HzYQixIRhbmTHn8SXzLfNjXRUxbrNlM2WzZjNiM2JY2hhxJPNpyJldMqazZLLts2XzZnNiceWyo9kzbDNsmhfxbd0QsqtzZ3Kjc23zaoicMefxpzKlHJzzafNgs2qzZo6dXPImc2PzZHNk82pzpIixILKlMSEIs24Xc6bzZrNknR1cm5WzL1lVMeudM2nzYbOks2rb23OiseLxLByzbA-Pc6HzpzKrMquZc2wMM6hzap9zYfPh13JhBbLhkRpc8qLx4wvV8azzazJkMWGxYjLk8uVxY3JmMOMw6TFlMWWyZ3LnsiYcgfInMmjy6TMgMKRwoTMgmXMhMioy6sJxrthy7hswqDJrc-qz6zGhs-uyanMicKSChTPs8-1wqDMksmAzJTCgsyWxKvKn8Klz5R0zazMtcy3zLllwqE2yYQFxrbCrMmJyYtCxanEsG7Pl8mSw6DDjMO6y5bFkQs-y5zJns-kAs-ny6PIpcihz63Pr2XGkMmrz7jIoMaa0LHGtsO_zInCkQLLp8mzwq7Ltcu3y7lib8SzZc2dzInDgNCFx6vMlMKDzLzPgcKjR08h0InKnmXCrsS9xrPHmCDKqMaLdMyrxpbMoVDJhBjPjc-Pz5F5z5PPlWjQoAbCmsuTdtClyZLDgX7Qqc-jxZ4T0K3JpM-50LnJs8mqxpIP0IJlz7bQtsWqz6vRvsW6AMyJwpDSg8-20YzJvtCIzJdlwrnHhcyhx4jHoHkgxJPGpMyPxLvMtnJt0JDModCS0JTJhBrHs8yfzYzEsy_MoEPNrcW_ZdCgA1zJkl7LlsiMyI7CvsiRGtG3yJfFngvRu8-pya_Pu9Cy0oDElBLShtCw04XQutC8E9KQzJTJg8ShZB7Rp8-QxILRqtCNz5bLj8WGBzrFh3DRswHRtdK-y59yy4XLotG8yK_PusmxyanLqyzSjs-3y7_Tq9KJyKjQvCTTsdOQx67SktCKxp3RnsavZMS8x5THlsS_YyDHmtKaSMmN0qPMuMiK0qbTkwzGtsOZIcSqxKzErsSwzKwv0q_GqGsgJsS8aWduIEHFqWjKu3PFgdOcw40EwqbJkjbTosKQz6DIldG4yJkO04LQr9C4z7vMq82txJPItsuyxoDGvAfIosiJ1KLQusurE9OKyLDPrcKoYdSmyofVhsmzzIbLicyJwpMIDBHTusev05PUt8mzyYjLpcmMyY7QoALDrsmSw5bToiwy06XPpMmG06nTg9KH0L_Sisu91YrVscSnyLfFvmfPvgcN1ZrKgMqCxLHKhWXQksqJz5HKjcqPbMqRypPKlcqXxLvNtMqc073CpdKvza5u0ZDKr8Kozb7Km8u2yYQZ0qnNotKs0q7SsMW30a4syZLDtNK4yI3Ih9K81avFnhHUuMul04vTrdG_y6sR1bTTtdCz0LwQ1ZrTksSMI9SS1JTEq8StxK_EsdKs1JvKhNSe1KDUotSk1KbUqNSqyIPRsdSsftSx1LPPotK_yJnHstWu1LnIotS81pPUv8i41YHGkiXVhMWN1ZHFutC0xpIm1rXPu9WN1Y_UoW7MjtWUxrzFhSco1rrJhBLGtsK_1JXXgdSY0qxTYXZl0Z3GisS6zKjUo9SI0KAEwrDRsdSxeNaryJnXt9eY1q_ClciiwrdhzJvKo9KqzKJs0qrMpseszKnQmMefx4t5y7rSnsurCsiiwqzHk8eVzbLUhdSIx53YoceMy6sLyKLCp9WOzbPVkNevy6rGvAzXms2s15zVktWAy6sNyKLCscW12IDKpiDUlSBOxaNz1YfGvBDXqcacw5kix4THhtKY2KLGq8at0Z_GsFPUg9isx5jYrsmzwqDPvg8r1ZrCgdGhzK3MrzI5MNmvMMmEJsezx7Vpx7fHuce7zoPOliAxNtGuNtOg1qfIjsOJ1qrPocud15VyFNauz6rXmsil067GvCvZksWwyLLIrsimzIXVgNC8LNe105Mo05bRqdGr0I7RrdSrAcKQy5PCgNClw4zDiMmb2obQqsWexKPYkdG904zWssmr07HVitOszIPPvdexw4DTuceoybzQhtO70ZbQi9OaaNSM0JLCojEyyYQc0JjQmsWpL9CcdNCez5fQo9eQ06LQp9iOctCX2rDThNax16XVs9Ozy6bWttC717HCkSbVtdGY0YLLuHIs0YXRh9GJ2rrVmtGPz4DKr9GS0ZTbgdGY0ZrHrNSGRMao0Z_RoXXMoVfJhCXWndKrxLTWoM2d1qLUqwNm1Kwk2oLWqTHSvdqs1LVy1JHbm9Ww1rbTh2so2pLPvMmz26PHo8KRKdqbxIzcj9We243Lis6u1aLao9akBNKoz5zLlwHVqduYBtqL25zauNqzxpLLvtqV1rDcudqX157PviUq1b3KgcqD1oHWg8qKyozKjsqQyJnKksyh1ovJjdaNypvbt9aR1L3WlNuzZdaXzbPWmW3JhCLantOY2qDTm9eO3LbUrFbTotOk3JTaiBfct9KH2rfcn9Wyxrwu2rXboMa-3bDThtKM2rzIv9GN24DSk8Kt2Z7Yq8eX1IbUiNuF1I7QldOTEN2hz5Lbg9Guwq7JktS33LHFkWzDjMKl25jeityY3bfcmsurCN213L3SiNqy0orRit272r7dvXPTvNGXwq7Updi31KHSncuJ3obFj9SPxIzTgcmzwrDPjtOXz5Lcq3THidGI0KAFRsOMwqrToksx25gN3a7cvt2x1bbZgca8Bdye0LLVt8m226Q92ajbt9GZyrbKuMq6yrzKvsuARcmEG8a2wr7XutSX14PEtEfNstiCyqnYntiGx5vYiMK63afTosKOaNuYz4zemdiTz63YldiXxbTYmcSu2JvMpcyn2J_Js8ee0pnLqxTIosKpxLDbvN-q153VuMurJNi93ZfgoIzFgMurKti02LZo2LjVksu7xo3GvCfIosKjzoHZj8aSKdyewrnZltKXx4nZmSDYqtSE2aHHm9iv0pnVlS4wQd-VzKzFnNms2a7ZsMmEKtyF2JrSrW7WktKx2IjDjsONBcib3LHSudyR3JPUtNqI0abemdWL3qHPsMa8MN-P043bpELcpcSNxrbEqdeA36TUmeCgitGfxLzXnt6-w5LgoYZa15LbmNac3pnCk8iiwq3Zm9SAx73GteCgmtilxrxA2KjgoKzZoMeZ4KCv4KCC2LDHnMa8Qdi0xIngoIvcoMurQtyewq_gooPZnGTEveCgjeChtNew3KJD4KGaLN6L05nRrNCgB8Ke4KGn3anRtt2r06bSqOChkN242o_GksSYxILQg9q23JrduuCiptKE0ITavcyT3b7Tvcqhyr3Kv8uBx7zfmFlQVEVEId6w0JPeiMSMNMuG2bXZt8e6IMagxqLYiMOi4KGGeNyQwozaheChjdOmD9-I4KGRxpzIpMul4KKjxJQ93J7alMmu2pbVtuCgm9C8QNa6zInEnSHClgEDAATFpdWAwpYCBeCjqwHDv8KWA-CjrAkAAMKWBeCjuAvgo63XnsKWBw4ADOCjv9W4wpbVlwAQ4KO5wpYJFQAW4KSMCuCkkRIAwqzgob7YpMuJwpYLBAESAeCgg9iiwpYM4KSFEgLVk8uNwpYN4KSDEgPfkcW_wpYP4KSVGOCkjBAZABIE4KO0EeCkheCkt-CjuuCkuQEa4KSME-Clggzgo7PClhTgpJEb0ovgob7CliQexJ4B4KSvZ8KWJSQAI-CkhsWAwpYmHOClmOClhyfgpZkb4KSu4KCbwpYo4KWZJeCkjCngpakb4KS6wpYq4KWXG-Ckp-CjrivgpJUm4KSMLOClt-ClkOCjui7gpYsi4KSMMOCliyrgpIw94KO-NOCkjEDgpoc1xaXgpaVB4KWLNeCkoOCljULgpoM1AuCjtEPgposs4KO5wqZnxK51cHPCkMKmzYtm1KHCgMKn2IDOjtiFw4s_w5nCmeCmr-Cmr8Ka"
+
+      
       codec.decompress(defaultData).then(json => {
         global.graph.configure( json )
         //graph.start()
@@ -375,6 +384,7 @@ let allCards = []
 
 
 allCards = lessons.map(lesson => {
+  
   return (
     <Card className={classes.card}>
       <CardActionArea onClick={()=>{  window.open(lesson.video) }}>
@@ -489,12 +499,15 @@ const mouseLeave = (e)=>{
 const tabFontSize = 14
 
 let extraTabs = []
-//console.log("MENU:",menu)
+console.log("MENU:",menu)
 let customNodes = []
 
 if(!showVideoLibrary){
 
   for(let n in global.customNodes){
+
+    console.log("N:", global.customNodes[n]);
+
     //console.log("GRID",global.customNodes[n])
     //if(global.customNodes[n].name!="Special" && global.customNodes[n].name!="Modules"){
       if(!drawing && global.customNodes[n].name==menu){
@@ -511,7 +524,7 @@ if(!showVideoLibrary){
         let itemspace = 40
         for(let i in global.customNodeItems[global.customNodes[n].name]){
           let item = global.customNodeItems[global.customNodes[n].name][i]
-          //console.log("Add item",item)
+          console.log("Add item",item)
           items.push([
             <div style={{...positionStyle,top:50+itemspace*i}}>
             <Dragger key={"dragger"+n+"_"+i} name={item.title} drop={(name,x,y)=>{
@@ -639,23 +652,40 @@ if(!showVideoLibrary){
 
 
 
-            extraTabs.push(
-              <div onMouseLeave={mouseLeave} style={{position:"absolute",bottom:0,right:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={()=>{setMenu(global.customNodes[n].name)}}>
-                <div style={{height:itemspace*items.length+80,position:"relative",borderRadius:"8px 8px 0px 0px",padding:6,textAlign:"center",letterSpacing:-1,color:"#888888",backgroundColor:"#222222",opacity:0.9}}>
+          extraTabs.push(
+            <div onMouseLeave={mouseLeave} style={{position:"absolute",bottom:0,right:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={()=>{setMenu(global.customNodes[n].name)}}>
+              <div style={{height:itemspace*items.length+80,position:"relative",borderRadius:"8px 8px 0px 0px",padding:6,textAlign:"center",letterSpacing:-1,color:"#888888",backgroundColor:"#222222",opacity:0.9}}>
 
-                    {global.customNodes[n].name}
+                  {global.customNodes[n].name}
 
 
-                    {items}
+                  {items}
 
-                </div>
               </div>
-            )
+            </div>
+          )
 
-        }else if(width < 1000 && global.customNodes[n].name=="Components"){
+      }else if( global.customNodes[n].name=="LitProtocol"){
+
+
+
+        extraTabs.push(
+          <div onMouseLeave={mouseLeave} style={{position:"absolute",bottom:0,right:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={()=>{setMenu(global.customNodes[n].name)}}>
+            <div style={{height:itemspace*items.length+80,position:"relative",borderRadius:"8px 8px 0px 0px",padding:6,textAlign:"center",letterSpacing:-1,color:"#888888",backgroundColor:"#222222",opacity:0.9}}>
+
+                {global.customNodes[n].name}
+
+
+                {items}
+
+            </div>
+          </div>
+        )
+
+    }else if(width < 1000 && global.customNodes[n].name=="Components"){
           extraTabs.push(
             <div onMouseLeave={mouseLeave} style={{position:"absolute",bottom:0,left:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={()=>{setMenu(global.customNodes[n].name)}}>
-              <div style={{transform:"rotate(90deg)",transformOrigin:"46% 76%",height:itemspace*items.length+80,position:"relative",borderRadius:"0px 0px 8px 8px",padding:6,textAlign:"center",letterSpacing:-1,color:"#888888",backgroundColor:"#222222",opacity:0.9}}>
+              <div style={{transform:"rotate(90deg)",transformOrigin:"46% 52%",height:itemspace*items.length+80,position:"relative",borderRadius:"0px 0px 8px 8px",padding:6,textAlign:"center",letterSpacing:-1,color:"#888888",backgroundColor:"#222222",opacity:0.9}}>
 
                   {global.customNodes[n].name}
 
@@ -699,18 +729,19 @@ if(!showVideoLibrary){
 
 
       }else{
+        
         if(drawing){
           if(global.customNodes[n].name!="Modules" && global.customNodes[n].name!="Special" && global.customNodes[n].name!="Components"){
             customNodes.push(
               <Grid key={"grd"+n} onMouseLeave={mouseLeave}  onMouseEnter={mouseEnter.bind(this,global.customNodes[n].name)} item xs={1} style={{cursor:"pointer",letterSpacing:-3,fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={(e)=>{
-                  //console.log("SET COLOR",global.customNodes[n].color)
-                  setDrawingColor("#"+global.customNodes[n].color)
-                  global.graph.canvas.drawing = "#"+global.customNodes[n].color
-                  setDrawing("#"+global.customNodes[n].color)
-                  global.graph.canvas.setDirty(true);
-                  global.graph.canvas.graph.change();
-
-                }}>
+                //console.log("SET COLOR",global.customNodes[n].color)
+                setDrawingColor("#"+global.customNodes[n].color)
+                global.graph.canvas.drawing = "#"+global.customNodes[n].color
+                setDrawing("#"+global.customNodes[n].color)
+                global.graph.canvas.setDirty(true);
+                global.graph.canvas.graph.change();
+                
+              }}>
                 <div style={{borderRadius:"0px 0px 8px 8px",padding:6,paddingTop:16,paddingBottom:8,textAlign:"center",color:"#222222",height:20,backgroundColor:"#"+global.customNodes[n].color,opacity:0.6}}>
 
                 </div>
@@ -738,6 +769,23 @@ if(!showVideoLibrary){
             </div>
           )
         }else if(global.customNodes[n].name=="Modules"){
+          extraTabs.push(
+            <div  onMouseLeave={mouseLeave}  onMouseEnter={mouseEnter.bind(this,global.customNodes[n].name)}  style={{position:"absolute",bottom:0,right:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={(e)=>{
+
+                if(e.pageY<height-80){
+                  setMenu("")
+                }else{
+                  setMenu(global.customNodes[n].name)
+                }
+              }}>
+              <div style={{borderRadius:"8px 8px 0px 0px",padding:6,textAlign:"center",color:"#222222",height:30,backgroundColor:"#"+global.customNodes[n].color,opacity:0.6}}>
+
+                  {global.customNodes[n].name}
+
+              </div>
+            </div>
+          )
+        }else if(global.customNodes[n].name=="LitProtocol"){
           extraTabs.push(
             <div  onMouseLeave={mouseLeave}  onMouseEnter={mouseEnter.bind(this,global.customNodes[n].name)}  style={{position:"absolute",bottom:0,right:80,zIndex:3,cursor:"pointer",fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={(e)=>{
 
@@ -792,6 +840,7 @@ if(!showVideoLibrary){
 
         }else{
           customNodes.push(
+            
             <Grid key={"grd"+n} onMouseLeave={mouseLeave}  onMouseEnter={mouseEnter.bind(this,global.customNodes[n].name)} item xs={1} style={{cursor:"pointer",letterSpacing:-3,fontSize:tabFontSize, fontFamily: "'Rubik Mono One', sans-serif"}} onClick={(e)=>{
 
                 if(e.pageY>60){
@@ -800,7 +849,7 @@ if(!showVideoLibrary){
                   setMenu(global.customNodes[n].name)
                 }
               }}>
-              <div style={{borderRadius:"0px 0px 8px 8px",padding:6,paddingTop:16,paddingBottom:8,textAlign:"center",color:"#222222",height:20,backgroundColor:"#"+global.customNodes[n].color,opacity:0.6}}>
+              <div style={{borderRadius:"0px 0px 8px 8px",padding:6,paddingTop:16,paddingBottom:8,textAlign:"center",color:"#222222",height:20,backgroundColor:"#"+global.customNodes[n].color,opacity:0.6,}}>
 
                   {width>800?global.customNodes[n].name:global.customNodes[n].icon}
 

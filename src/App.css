@@ -25,3 +25,9 @@
 .MuiDrawer-paperAnchorDockedBottom {
   border-top: 0px;
 }
+
+.litecontextmenu {
+  position: absolute;
+  top: 40% !important;
+  left: 40% !important;
+}

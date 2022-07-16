@@ -1,5 +1,5 @@
 {
-  "name": "eth.build",
+  "name": "eth-build-with-lit",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -38,6 +38,7 @@
     "jsqr": "^1.2.0",
     "keccak256": "^1.0.0",
     "levelup": "^4.3.2",
+    "lit-js-sdk": "^1.1.198",
     "litegraph.js": "github:grahamtallen/litegraph.js#master",
     "memdown": "^5.1.0",
     "moment": "^2.24.0",

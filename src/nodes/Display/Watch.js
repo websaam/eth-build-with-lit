@@ -6,9 +6,9 @@ function Watch() {
   this.addInput("", 0, { label: "" });
   this.addOutput("", 0, { label: "" });
   this.value = 0;
-  this.size = [300, 60];
-  this.autosized = false
-  this.properties = {title:"Watch"}
+  this.size = [200, 60];
+  this.autosized = true
+  this.properties = {title:"Watch", fontSize: "12"}
 }
 
 Watch.title = "Watch";
