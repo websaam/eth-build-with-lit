@@ -19,7 +19,7 @@ BlobToDataURI.prototype.onExecute = async function(){
 
     // console.log("message:", message)
 
-    if( message ){
+    if( message && message?.constructor?.name == 'Blob'){
         const data = await new Promise(function (resolve, reject){
             var reader = new FileReader();
     

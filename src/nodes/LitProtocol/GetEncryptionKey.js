@@ -2,7 +2,7 @@ const defaultColor = "#290000"
 
 function GetEncryptionKey()
 {
-    this.addInput("accessControlConditions", "array")
+    this.addInput("accessControlConditions", "array,object")
     this.addInput("toDecrypt", "string")
     this.addInput("chain", "string")
     this.addInput("authSig", "object")
@@ -15,7 +15,7 @@ function GetEncryptionKey()
 
     this.currentTitleColor = defaultColor
 
-    this.size = [400, 70]
+    this.size = [400, 120]
 }
 
 //name to show
